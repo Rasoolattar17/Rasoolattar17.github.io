@@ -23,32 +23,41 @@
   --display:'Syne',sans-serif;
   --body:'DM Sans',sans-serif;
 }
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--body);overflow:hidden}
-body{display:flex;flex-direction:column}
+html{scroll-behavior:smooth}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden}
+body{display:flex;flex-direction:column;min-height:100dvh;position:relative}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 55% at 50% -10%,rgba(79,142,247,.1),transparent 60%),radial-gradient(ellipse 45% 35% at 100% 100%,rgba(124,92,191,.07),transparent 55%)}
 
 /* Header */
-.header{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--border);flex-shrink:0}
+.header{display:flex;align-items:center;justify-content:space-between;padding:16px clamp(20px,4vw,40px);border-bottom:1px solid var(--border);flex-shrink:0;background:rgba(11,12,15,.85);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10}
+.header-left{display:flex;align-items:center;gap:20px}
+.back-link{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;display:inline-flex;align-items:center;gap:6px}
+.back-link:hover{color:var(--accent)}
 .logo{font-family:var(--display);font-size:20px;font-weight:800;letter-spacing:-0.5px}
 .logo span{color:var(--accent)}
-.slide-counter{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.slide-counter{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
 
 /* Progress */
-.progress{height:2px;background:var(--border);flex-shrink:0}
+.progress{height:2px;background:var(--border);flex-shrink:0;position:relative;z-index:10}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
 
 /* Main */
-.main{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:40px}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;justify-content:center;align-items:flex-start;padding:clamp(28px,5vh,56px) clamp(20px,4vw,40px) 32px;position:relative;z-index:1;-webkit-overflow-scrolling:touch}
 
 /* Slides */
-.slides{width:100%;max-width:860px}
+.slides{width:100%;max-width:760px}
 .slide{display:none;animation:fadeIn .35s ease}
 .slide.active{display:block}
+.slide-hero{text-align:center;padding-top:clamp(8px,2vh,24px)}
+.slide-hero .subtitle{margin-left:auto;margin-right:auto}
+.slide-hero .hero-stats{text-align:left}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
 /* Typography */
-h1{font-family:var(--display);font-size:42px;font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:8px}
-h2{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px}
-.subtitle{font-size:16px;color:var(--muted);margin-bottom:32px;font-weight:300}
+h1{font-family:var(--display);font-size:clamp(1.85rem,4vw,2.65rem);font-weight:800;line-height:1.15;letter-spacing:-0.03em;margin-bottom:12px;max-width:14ch}
+.slide-hero h1{margin-left:auto;margin-right:auto;max-width:22ch}
+h2{font-family:var(--display);font-size:clamp(1.35rem,3vw,1.75rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:8px;line-height:1.2}
+.subtitle{font-size:clamp(.95rem,2vw,1.05rem);color:var(--muted);margin-bottom:clamp(20px,3vh,28px);font-weight:300;line-height:1.65;max-width:52ch}
 .accent{color:var(--accent)}
 .accent2{color:var(--accent2)}
 
@@ -65,7 +74,7 @@ h2{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-0.5
 .pain-desc{font-size:13px;color:var(--muted);line-height:1.5}
 
 /* YAML */
-.yaml{background:#0d1117;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:20px 24px;font-family:var(--mono);font-size:13px;line-height:2;margin:16px 0}
+.yaml{background:#0d1117;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:16px 20px;font-family:var(--mono);font-size:12px;line-height:1.75;margin:16px 0;overflow-x:auto;word-break:break-word}
 .y-comment{color:var(--muted)}
 .y-key{color:#79b8ff}
 .y-val{color:#85e89d}
@@ -115,19 +124,23 @@ h2{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-0.5
 .tl-desc{font-size:13px;color:var(--muted);line-height:1.5}
 
 /* Hero accent */
-.hero-tag{display:inline-block;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);border-radius:8px;padding:6px 14px;font-size:13px;font-family:var(--mono);color:var(--accent);margin-bottom:20px}
-.hero-stats{display:flex;gap:32px;margin-top:28px;padding-top:28px;border-top:1px solid var(--border)}
-.hero-stat-val{font-family:var(--display);font-size:28px;font-weight:800}
-.hero-stat-label{font-size:12px;color:var(--muted);margin-top:2px}
+.hero-tag{display:inline-block;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);border-radius:8px;padding:6px 14px;font-size:12px;font-family:var(--mono);color:var(--accent);margin-bottom:clamp(16px,3vh,24px)}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,20px);margin-top:clamp(24px,4vh,36px);padding-top:clamp(20px,3vh,28px);border-top:1px solid var(--border)}
+.hero-stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:border-color .2s,transform .2s}
+.hero-stat:hover{border-color:rgba(79,142,247,.35);transform:translateY(-2px)}
+.hero-stat-val{font-family:var(--display);font-size:clamp(1.35rem,3vw,1.65rem);font-weight:800;line-height:1.1}
+.hero-stat-label{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
 
 /* Nav */
-.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-top:1px solid var(--border);flex-shrink:0}
-.nav-btn{background:transparent;border:1px solid var(--border);color:var(--text);font-family:var(--body);font-size:13px;padding:8px 20px;border-radius:8px;cursor:pointer;transition:all .2s}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px clamp(20px,4vw,40px);border-top:1px solid var(--border);flex-shrink:0;background:rgba(11,12,15,.92);backdrop-filter:blur(12px);position:sticky;bottom:0;z-index:10;gap:12px}
+.nav-btn{background:transparent;border:1px solid var(--border);color:var(--text);font-family:var(--body);font-size:13px;padding:8px 18px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .nav-btn:hover:not(:disabled){background:var(--surface2);border-color:var(--accent)}
 .nav-btn:disabled{opacity:.3;cursor:not-allowed}
-.nav-dots{display:flex;gap:6px}
-.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--border);border:none;cursor:pointer;padding:0;transition:all .2s}
+.nav-dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--border);border:none;cursor:pointer;padding:0;transition:all .2s;flex-shrink:0}
 .nav-dot.on{background:var(--accent);width:18px;border-radius:3px}
+.nav-center{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;max-width:280px}
+.nav-hint{font-size:11px;color:var(--muted);font-family:var(--mono);text-align:center;margin-top:6px;display:none}
 .run-btn{background:var(--accent);border:none;color:#fff;font-family:var(--body);font-size:13px;font-weight:500;padding:10px 24px;border-radius:8px;cursor:pointer;transition:all .2s;margin-top:16px}
 .run-btn:hover:not(:disabled){background:#3a7aef;transform:translateY(-1px)}
 .run-btn:disabled{opacity:.5;cursor:not-allowed}
@@ -139,15 +152,40 @@ h2{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-0.5
 .cta-icon{font-size:28px;margin-bottom:10px}
 .cta-title{font-size:14px;font-weight:600;margin-bottom:4px}
 .cta-desc{font-size:12px;color:var(--muted);line-height:1.5}
-.contact-bar{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.contact-bar{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:8px;flex-wrap:wrap}
 .contact-label{font-size:12px;color:var(--muted)}
 .contact-val{font-size:14px;font-weight:500;color:var(--accent)}
+
+/* Responsive */
+@media(max-width:768px){
+  .two-col,.card-grid,.cta-grid{grid-template-columns:1fr}
+  .hero-stats{grid-template-columns:1fr}
+  .metric-row{grid-template-columns:1fr}
+  .contact-bar{flex-direction:column;text-align:center}
+  .contact-bar>div:last-child{text-align:center!important}
+  .header-left{gap:12px}
+  .back-link span{display:none}
+  .nav-btn{padding:8px 14px;font-size:12px}
+  .nav-hint{display:block}
+  h1{max-width:none}
+  .step-label{font-size:13px}
+  .step-time{display:none}
+}
+@media(min-width:769px) and (max-width:960px){
+  .hero-stats{grid-template-columns:repeat(3,1fr)}
+}
+@media(min-height:700px){
+  .slide-hero{display:flex;flex-direction:column;justify-content:center;min-height:min(420px,calc(100dvh - 220px))}
+}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="logo">Lms<span>IQ</span></div>
+  <div class="header-left">
+    <a href="index.html" class="back-link">← <span>Portfolio</span></a>
+    <div class="logo">Lms<span>IQ</span></div>
+  </div>
   <div class="slide-counter" id="counter">1 / 7</div>
 </div>
 
@@ -157,14 +195,14 @@ h2{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-0.5
 <div class="slides">
 
 <!-- Slide 1: Hero -->
-<div class="slide active" id="s0">
+<div class="slide slide-hero active" id="s0">
   <div class="hero-tag">AI-ready LMS regression testing platform</div>
   <h1>Stop discovering<br><span class="accent">Moodle bugs</span><br>in production.</h1>
   <p class="subtitle">LmsIQ automatically tests your Moodle workflows before every upgrade, plugin update, or theme change — so your users never find out something broke.</p>
   <div class="hero-stats">
-    <div><div class="hero-stat-val accent">43s</div><div class="hero-stat-label">Full regression suite</div></div>
-    <div><div class="hero-stat-val" style="color:var(--green)">40+</div><div class="hero-stat-label">Moodle-aware actions</div></div>
-    <div><div class="hero-stat-val" style="color:var(--accent2)">Moodle 5.x</div><div class="hero-stat-label">Fully supported</div></div>
+    <div class="hero-stat"><div class="hero-stat-val accent">43s</div><div class="hero-stat-label">Full regression suite</div></div>
+    <div class="hero-stat"><div class="hero-stat-val" style="color:var(--green)">40+</div><div class="hero-stat-label">Moodle-aware actions</div></div>
+    <div class="hero-stat"><div class="hero-stat-val" style="color:var(--accent2)">Moodle 5.x</div><div class="hero-stat-label">Fully supported</div></div>
   </div>
 </div>
 
@@ -364,13 +402,18 @@ within 30s timeout
 
 <div class="nav">
   <button class="nav-btn" id="prev-btn" onclick="prev()" disabled>← Previous</button>
-  <div class="nav-dots" id="dots"></div>
+  <div class="nav-center">
+    <div class="nav-dots" id="dots"></div>
+    <div class="nav-hint">Use ← → arrow keys to navigate</div>
+  </div>
   <button class="nav-btn" id="next-btn" onclick="next()">Next →</button>
 </div>
 
 <script>
 const total = 7;
 let cur = 0;
+
+const mainEl = document.querySelector('.main');
 
 function goTo(n) {
   document.getElementById('s'+cur).classList.remove('active');
@@ -381,6 +424,7 @@ function goTo(n) {
   document.getElementById('prev-btn').disabled = cur === 0;
   document.getElementById('next-btn').disabled = cur === total-1;
   document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('on', i === cur));
+  if (mainEl) mainEl.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function next(){ if(cur < total-1) goTo(cur+1); }
