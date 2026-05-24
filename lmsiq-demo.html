@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LmsIQ — Client Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0c0f;
+  --surface:#13151a;
+  --surface2:#1c1f27;
+  --border:#2a2d38;
+  --accent:#4f8ef7;
+  --accent2:#7c5cbf;
+  --green:#2ecc8a;
+  --red:#e8514a;
+  --amber:#f0a500;
+  --text:#f0f2f7;
+  --muted:#6b7280;
+  --mono:'DM Mono',monospace;
+  --display:'Syne',sans-serif;
+  --body:'DM Sans',sans-serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--body);overflow:hidden}
+body{display:flex;flex-direction:column}
+
+/* Header */
+.header{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--border);flex-shrink:0}
+.logo{font-family:var(--display);font-size:20px;font-weight:800;letter-spacing:-0.5px}
+.logo span{color:var(--accent)}
+.slide-counter{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+/* Progress */
+.progress{height:2px;background:var(--border);flex-shrink:0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
+
+/* Main */
+.main{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:40px}
+
+/* Slides */
+.slides{width:100%;max-width:860px}
+.slide{display:none;animation:fadeIn .35s ease}
+.slide.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Typography */
+h1{font-family:var(--display);font-size:42px;font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:8px}
+h2{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px}
+.subtitle{font-size:16px;color:var(--muted);margin-bottom:32px;font-weight:300}
+.accent{color:var(--accent)}
+.accent2{color:var(--accent2)}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:12px}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Pain items */
+.pain-item{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border)}
+.pain-item:last-child{border-bottom:none}
+.pain-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:6px}
+.fix-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:6px}
+.pain-title{font-size:14px;font-weight:500;margin-bottom:3px}
+.pain-desc{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* YAML */
+.yaml{background:#0d1117;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:20px 24px;font-family:var(--mono);font-size:13px;line-height:2;margin:16px 0}
+.y-comment{color:var(--muted)}
+.y-key{color:#79b8ff}
+.y-val{color:#85e89d}
+.y-action{color:#f97583}
+.y-cmd{color:var(--amber)}
+
+/* Step rows */
+.step-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--border)}
+.step-row:last-child{border-bottom:none}
+.step-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:600}
+.si-pass{background:rgba(46,204,138,.15);color:var(--green);border:1px solid rgba(46,204,138,.3)}
+.si-fail{background:rgba(232,81,74,.15);color:var(--red);border:1px solid rgba(232,81,74,.3)}
+.si-wait{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.si-run{background:rgba(79,142,247,.15);color:var(--accent);border:1px solid rgba(79,142,247,.3)}
+.step-label{font-size:14px;flex:1}
+.step-time{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+/* Metrics */
+.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.metric{background:var(--surface2);border-radius:10px;padding:16px 20px}
+.metric-val{font-family:var(--display);font-size:32px;font-weight:800;line-height:1}
+.metric-label{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* Badges */
+.badge{display:inline-block;font-size:11px;font-family:var(--mono);padding:3px 8px;border-radius:6px;margin-left:8px;font-weight:500}
+.b-fail{background:rgba(232,81,74,.15);color:var(--red);border:1px solid rgba(232,81,74,.3)}
+.b-pass{background:rgba(46,204,138,.15);color:var(--green);border:1px solid rgba(46,204,138,.3)}
+.b-info{background:rgba(79,142,247,.15);color:var(--accent);border:1px solid rgba(79,142,247,.3)}
+
+/* Error block */
+.error-block{background:#120a0a;border:1px solid rgba(232,81,74,.3);border-radius:10px;padding:16px 20px;font-family:var(--mono);font-size:12px;color:var(--red);line-height:1.8;margin-top:12px}
+
+/* Artifacts */
+.artifact-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.artifact{background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.2);border-radius:8px;padding:6px 12px;font-size:12px;font-family:var(--mono);color:var(--accent)}
+
+/* Two col layout */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+
+/* Timeline slide */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:1px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:24px}
+.tl-dot{position:absolute;left:-24px;top:4px;width:10px;height:10px;border-radius:50%;border:2px solid var(--accent);background:var(--bg)}
+.tl-label{font-size:12px;font-family:var(--mono);color:var(--accent);margin-bottom:4px}
+.tl-title{font-size:14px;font-weight:500;margin-bottom:3px}
+.tl-desc{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* Hero accent */
+.hero-tag{display:inline-block;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);border-radius:8px;padding:6px 14px;font-size:13px;font-family:var(--mono);color:var(--accent);margin-bottom:20px}
+.hero-stats{display:flex;gap:32px;margin-top:28px;padding-top:28px;border-top:1px solid var(--border)}
+.hero-stat-val{font-family:var(--display);font-size:28px;font-weight:800}
+.hero-stat-label{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* Nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-top:1px solid var(--border);flex-shrink:0}
+.nav-btn{background:transparent;border:1px solid var(--border);color:var(--text);font-family:var(--body);font-size:13px;padding:8px 20px;border-radius:8px;cursor:pointer;transition:all .2s}
+.nav-btn:hover:not(:disabled){background:var(--surface2);border-color:var(--accent)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.nav-dots{display:flex;gap:6px}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--border);border:none;cursor:pointer;padding:0;transition:all .2s}
+.nav-dot.on{background:var(--accent);width:18px;border-radius:3px}
+.run-btn{background:var(--accent);border:none;color:#fff;font-family:var(--body);font-size:13px;font-weight:500;padding:10px 24px;border-radius:8px;cursor:pointer;transition:all .2s;margin-top:16px}
+.run-btn:hover:not(:disabled){background:#3a7aef;transform:translateY(-1px)}
+.run-btn:disabled{opacity:.5;cursor:not-allowed}
+.result-msg{margin-top:14px;font-size:14px;color:var(--green);font-weight:500;display:none}
+
+/* Slide 7 — CTA */
+.cta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:24px 0}
+.cta-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center}
+.cta-icon{font-size:28px;margin-bottom:10px}
+.cta-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.cta-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.contact-bar{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.contact-label{font-size:12px;color:var(--muted)}
+.contact-val{font-size:14px;font-weight:500;color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Lms<span>IQ</span></div>
+  <div class="slide-counter" id="counter">1 / 7</div>
+</div>
+
+<div class="progress"><div class="progress-fill" id="prog" style="width:14.2%"></div></div>
+
+<div class="main">
+<div class="slides">
+
+<!-- Slide 1: Hero -->
+<div class="slide active" id="s0">
+  <div class="hero-tag">AI-ready LMS regression testing platform</div>
+  <h1>Stop discovering<br><span class="accent">Moodle bugs</span><br>in production.</h1>
+  <p class="subtitle">LmsIQ automatically tests your Moodle workflows before every upgrade, plugin update, or theme change — so your users never find out something broke.</p>
+  <div class="hero-stats">
+    <div><div class="hero-stat-val accent">43s</div><div class="hero-stat-label">Full regression suite</div></div>
+    <div><div class="hero-stat-val" style="color:var(--green)">40+</div><div class="hero-stat-label">Moodle-aware actions</div></div>
+    <div><div class="hero-stat-val" style="color:var(--accent2)">Moodle 5.x</div><div class="hero-stat-label">Fully supported</div></div>
+  </div>
+</div>
+
+<!-- Slide 2: Problem -->
+<div class="slide" id="s1">
+  <h2>The problem every Moodle team faces</h2>
+  <p class="subtitle">What happens before every upgrade today</p>
+  <div class="card">
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <div><div class="pain-title">Spreadsheet-based manual testing</div><div class="pain-desc">QA team clicks through 50+ test cases manually. Takes 4–8 hours every upgrade. Still things get missed.</div></div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <div><div class="pain-title">Regressions found in production</div><div class="pain-desc">SCORM stops working. Students can't submit assignments. Client calls at 9pm. Reputation damaged.</div></div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <div><div class="pain-title">Behat and Selenium are too fragile</div><div class="pain-desc">Breaks on every Moodle version. Requires developers to maintain. Too slow. Nobody actually uses it.</div></div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-dot"></div>
+      <div><div class="pain-title">Custom Moodle makes everything worse</div><div class="pain-desc">Your plugins, themes, and custom workflows break in unpredictable ways. No generic tool understands your setup.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Solution -->
+<div class="slide" id="s2">
+  <h2>How LmsIQ works</h2>
+  <p class="subtitle">Write YAML, not code. LmsIQ handles the rest.</p>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="pain-item"><div class="fix-dot"></div><div><div class="pain-title">YAML test scenarios</div><div class="pain-desc">QA testers write simple YAML files. No Playwright, no TypeScript, no code.</div></div></div>
+        <div class="pain-item"><div class="fix-dot"></div><div><div class="pain-title">Moodle-aware actions</div><div class="pain-desc">loginAs, openCourse, completeScorm, verifyActivityCompleted — built for Moodle.</div></div></div>
+        <div class="pain-item"><div class="fix-dot"></div><div><div class="pain-title">Semantic recorder</div><div class="pain-desc">Record your workflow once. LmsIQ generates the YAML automatically.</div></div></div>
+        <div class="pain-item"><div class="fix-dot"></div><div><div class="pain-title">Full failure evidence</div><div class="pain-desc">Screenshot, video, and trace on every failure. Know exactly what broke and why.</div></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="yaml">
+<span class="y-comment"># Student completes SCORM module</span>
+<span class="y-key">id</span>: <span class="y-val">student-scorm</span>
+
+<span class="y-key">steps</span>:
+  - <span class="y-key">action</span>: <span class="y-action">loginAs</span>
+    <span class="y-key">role</span>: <span class="y-val">student</span>
+
+  - <span class="y-key">action</span>: <span class="y-action">openCourse</span>
+    <span class="y-key">course</span>: <span class="y-val">"${COURSE}"</span>
+
+  - <span class="y-key">action</span>: <span class="y-action">completeScorm</span>
+    <span class="y-key">activity</span>: <span class="y-val">"${SCORM}"</span>
+
+  - <span class="y-key">action</span>: <span class="y-action">verifyActivityCompleted</span>
+    <span class="y-key">activity</span>: <span class="y-val">"${SCORM}"</span>
+
+  - <span class="y-key">action</span>: <span class="y-action">logout</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Setup -->
+<div class="slide" id="s3">
+  <h2>Setup in under an hour</h2>
+  <p class="subtitle">Three commands. Your Moodle. Your credentials. Done.</p>
+  <div class="two-col">
+    <div class="yaml" style="margin:0">
+<span class="y-comment"># 1. Install</span>
+<span class="y-cmd">npm install -g lmsiq</span>
+
+<span class="y-comment"># 2. Create config</span>
+<span class="y-cmd">lmsiq init</span>
+
+<span class="y-comment"># Fill .env with your details</span>
+<span class="y-key">MOODLE_URL</span>=<span class="y-val">https://your-moodle.com</span>
+<span class="y-key">MOODLE_STUDENT_USER</span>=<span class="y-val">student1</span>
+<span class="y-key">MOODLE_COURSE_NAME</span>=<span class="y-val">Biology 101</span>
+
+<span class="y-comment"># 3. Verify</span>
+<span class="y-cmd">lmsiq doctor</span>
+    </div>
+    <div class="card" style="margin:0">
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">Environment variables</div><div class="step-time">OK</div></div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">Moodle URL reachable</div><div class="step-time">200ms</div></div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">Moodle 5.2 — supported</div><div class="step-time">OK</div></div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">Admin login verified</div><div class="step-time">1.8s</div></div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">Student login verified</div><div class="step-time">1.9s</div></div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">Course found: Biology 101</div><div class="step-time">OK</div></div>
+      <div class="step-row" style="border:none;padding-top:14px"><div style="font-size:13px;color:var(--green);font-weight:500">✓ Ready to run workflows</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Live demo -->
+<div class="slide" id="s4">
+  <h2>Live workflow execution</h2>
+  <p class="subtitle">Watch LmsIQ test your Moodle automatically</p>
+  <div class="two-col" style="align-items:start">
+    <div class="card" style="margin:0">
+      <div class="step-row" id="rs0"><div class="step-icon si-wait" id="ri0">–</div><div class="step-label">loginAs student</div><div class="step-time" id="rt0">—</div></div>
+      <div class="step-row" id="rs1"><div class="step-icon si-wait" id="ri1">–</div><div class="step-label">openCourse: Biology 101</div><div class="step-time" id="rt1">—</div></div>
+      <div class="step-row" id="rs2"><div class="step-icon si-wait" id="ri2">–</div><div class="step-label">completeScorm: Module 1</div><div class="step-time" id="rt2">—</div></div>
+      <div class="step-row" id="rs3"><div class="step-icon si-wait" id="ri3">–</div><div class="step-label">verifyActivityCompleted</div><div class="step-time" id="rt3">—</div></div>
+      <div class="step-row" id="rs4"><div class="step-icon si-wait" id="ri4">–</div><div class="step-label">logout</div><div class="step-time" id="rt4">—</div></div>
+      <div id="run-result" class="result-msg">✓ Passed in 9.4s — all steps complete</div>
+    </div>
+    <div>
+      <div class="yaml" style="margin:0;font-size:12px">
+<span class="y-comment"># Run from terminal</span>
+<span class="y-cmd">lmsiq run \</span>
+  --workflow \
+  student-scorm.yaml
+
+<span class="y-comment"># Or run full suite</span>
+<span class="y-cmd">lmsiq run --suite core</span>
+
+<span class="y-comment"># Or in GitHub Actions</span>
+<span class="y-cmd">lmsiq run \</span>
+  --tag smoke \
+  --reporter json
+      </div>
+      <button class="run-btn" onclick="runDemo()" id="run-btn">▶ Run workflow</button>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Failure -->
+<div class="slide" id="s5">
+  <h2>What a failure looks like</h2>
+  <p class="subtitle">Exact location, screenshot, video, trace — every time</p>
+  <div class="two-col">
+    <div>
+      <div class="card" style="margin:0">
+        <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">loginAs student</div><div class="step-time">1.9s</div></div>
+        <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">openCourse</div><div class="step-time">2.1s</div></div>
+        <div class="step-row"><div class="step-icon si-fail">✗</div><div class="step-label">completeScorm <span class="badge b-fail">failed</span></div><div class="step-time">15s</div></div>
+      </div>
+      <div class="error-block">
+Workflow "student-scorm" failed<br>
+Step 3/5 — action: completeScorm<br>
+Activity: "Module 1"<br>
+URL: /mod/scorm/player.php<br>
+<br>
+Error: SCORM player did not load
+within 30s timeout
+      </div>
+      <div class="artifact-row">
+        <div class="artifact">📸 screenshot.png</div>
+        <div class="artifact">🎥 video.webm</div>
+        <div class="artifact">🔍 trace.zip</div>
+      </div>
+    </div>
+    <div class="card" style="margin:0">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;font-family:var(--mono)">Before upgrade — all passing</div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-login</div><div class="step-time">1.9s</div></div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-complete-page</div><div class="step-time">6.1s</div></div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-complete-scorm</div><div class="step-time">9.4s</div></div>
+      <div style="font-size:12px;color:var(--muted);margin:14px 0 12px;font-family:var(--mono)">After upgrade — regression found</div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-login</div><div class="step-time">1.9s</div></div>
+      <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-complete-page</div><div class="step-time">6.1s</div></div>
+      <div class="step-row"><div class="step-icon si-fail">✗</div><div class="step-label">student-complete-scorm <span class="badge b-fail">broken</span></div><div class="step-time">15s</div></div>
+      <div style="margin-top:14px;font-size:13px;color:var(--green)">Fixed on staging. Client never knew.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Results -->
+<div class="slide" id="s6">
+  <h2>Full suite — 43 seconds</h2>
+  <p class="subtitle">What used to take 4–8 hours of manual testing</p>
+  <div class="metric-row">
+    <div class="metric"><div class="metric-val" style="color:var(--green)">8</div><div class="metric-label">Workflows passing</div></div>
+    <div class="metric"><div class="metric-val" style="color:var(--red)">1</div><div class="metric-label">Regression found</div></div>
+    <div class="metric"><div class="metric-val" style="color:var(--accent)">43s</div><div class="metric-label">Total run time</div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-login</div><div class="step-time">1.9s</div></div>
+    <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">teacher-login</div><div class="step-time">2.1s</div></div>
+    <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-open-course</div><div class="step-time">4.3s</div></div>
+    <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-complete-page</div><div class="step-time">6.1s</div></div>
+    <div class="step-row"><div class="step-icon si-fail">✗</div><div class="step-label">student-complete-scorm <span class="badge b-fail">broken after upgrade</span></div><div class="step-time">15s</div></div>
+    <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-submit-assignment</div><div class="step-time">8.2s</div></div>
+    <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">student-attempt-quiz</div><div class="step-time">9.9s</div></div>
+    <div class="step-row"><div class="step-icon si-pass">✓</div><div class="step-label">admin-create-user</div><div class="step-time">11.2s</div></div>
+  </div>
+  <div class="contact-bar">
+    <div><div class="contact-label">Ready to set this up for your Moodle?</div><div class="contact-val">Rasool Attar — Moodle LMS Expert</div></div>
+    <div style="text-align:right"><div class="contact-label">WhatsApp</div><div class="contact-val">+91 93808 69103</div></div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn" id="prev-btn" onclick="prev()" disabled>← Previous</button>
+  <div class="nav-dots" id="dots"></div>
+  <button class="nav-btn" id="next-btn" onclick="next()">Next →</button>
+</div>
+
+<script>
+const total = 7;
+let cur = 0;
+
+function goTo(n) {
+  document.getElementById('s'+cur).classList.remove('active');
+  cur = n;
+  document.getElementById('s'+cur).classList.add('active');
+  document.getElementById('prog').style.width = ((cur+1)/total*100).toFixed(1)+'%';
+  document.getElementById('counter').textContent = (cur+1)+' / '+total;
+  document.getElementById('prev-btn').disabled = cur === 0;
+  document.getElementById('next-btn').disabled = cur === total-1;
+  document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('on', i === cur));
+}
+
+function next(){ if(cur < total-1) goTo(cur+1); }
+function prev(){ if(cur > 0) goTo(cur-1); }
+
+const dotsEl = document.getElementById('dots');
+for(let i = 0; i < total; i++){
+  const b = document.createElement('button');
+  b.className = 'nav-dot' + (i === 0 ? ' on' : '');
+  b.setAttribute('aria-label', 'Go to slide '+(i+1));
+  b.onclick = () => goTo(i);
+  dotsEl.appendChild(b);
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
+  if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') prev();
+});
+
+const steps = [
+  {label:'loginAs student', time:'1.9s', delay:700},
+  {label:'openCourse: Biology 101', time:'2.1s', delay:900},
+  {label:'completeScorm: Module 1', time:'4.8s', delay:1600},
+  {label:'verifyActivityCompleted', time:'1.2s', delay:700},
+  {label:'logout', time:'0.8s', delay:500},
+];
+
+let running = false;
+
+function setStep(i, state, time){
+  const icon = document.getElementById('ri'+i);
+  const t = document.getElementById('rt'+i);
+  if(state === 'run'){
+    icon.className = 'step-icon si-run';
+    icon.textContent = '●';
+    t.textContent = '...';
+  } else if(state === 'pass'){
+    icon.className = 'step-icon si-pass';
+    icon.textContent = '✓';
+    t.textContent = time;
+  }
+}
+
+async function runDemo(){
+  if(running) return;
+  running = true;
+  const btn = document.getElementById('run-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Running...';
+  document.getElementById('run-result').style.display = 'none';
+  for(let i = 0; i < steps.length; i++){
+    setStep(i,'run');
+    await new Promise(r => setTimeout(r, steps[i].delay));
+    setStep(i,'pass', steps[i].time);
+  }
+  document.getElementById('run-result').style.display = 'block';
+  btn.textContent = '▶ Run again';
+  btn.disabled = false;
+  running = false;
+  btn.onclick = () => {
+    for(let i=0;i<5;i++){
+      document.getElementById('ri'+i).className='step-icon si-wait';
+      document.getElementById('ri'+i).textContent='–';
+      document.getElementById('rt'+i).textContent='—';
+    }
+    document.getElementById('run-result').style.display='none';
+    btn.onclick = () => runDemo();
+    runDemo();
+  };
+}
+</script>
+</body>
+</html>
