@@ -11,7 +11,7 @@ const FORM_ENDPOINT = "https://api.web3forms.com/submit";
 
 // Only needed for Web3Forms. Get it free at https://web3forms.com (enter your email).
 // The key is safe to publish: it only lets people send submissions to your inbox.
-const WEB3FORMS_ACCESS_KEY = "";
+const WEB3FORMS_ACCESS_KEY = "795d07c0-4661-4501-86a0-bdbae5521fcc";
 
 // Product name placeholder. Change it here (and in index.html <title>/meta for SEO).
 const BRAND = "SetuBooks";
