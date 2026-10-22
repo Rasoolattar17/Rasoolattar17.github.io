@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SetuBooks: keep Tally and ERPNext in sync, without double entry (early access)</title>
+  <meta name="description" content="Run ERPNext for sales, stock and operations while your CA keeps the books in Tally. A small Windows bridge syncs vouchers and ledgers and reconciles both sides before GST filing. Join the early-access waitlist.">
+  <meta name="theme-color" content="#0f5132">
+  <meta property="og:title" content="SetuBooks: Tally ⇄ ERPNext sync for Indian businesses and CAs">
+  <meta property="og:description" content="Stop double entry. Stop GST-time mismatches. Join the early-access waitlist.">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://rasoolattar17.github.io/setubooks/">
+  <meta property="og:url" content="https://rasoolattar17.github.io/setubooks/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip" href="#signup">Skip to signup</a>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="#top" aria-label="Home">
+        <img src="assets/favicon.svg" alt="" width="28" height="28">
+        <span class="brand">SetuBooks</span>
+      </a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#who">Who it's for</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn-sm" href="#signup">Get early access</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Early access · Built in Bengaluru for Indian businesses</p>
+          <h1>Run ERPNext for your business. Let your CA keep Tally. <span class="hl">Stop entering everything twice.</span></h1>
+          <p class="lead">
+            Sales, purchases and stock live in ERPNext, but the books and GST returns live in Tally, so someone re-keys invoices every week and the numbers
+            never quite match at filing time. <strong class="brand">SetuBooks</strong> keeps both in sync automatically and shows you exactly where they differ.
+          </p>
+          <div class="cta-row">
+            <a class="btn" href="#signup">Join the waitlist</a>
+            <a class="btn btn-ghost" href="#how">See how it works</a>
+          </div>
+          <ul class="ticks">
+            <li>No migration and no change for your CA</li>
+            <li>Invoices, payments and journals flow to Tally as vouchers</li>
+            <li>Reconciliation report before every GST filing</li>
+          </ul>
+        </div>
+
+        <div class="hero-card" aria-hidden="true">
+          <div class="flow">
+            <div class="node">
+              <div class="node-title">ERPNext</div>
+              <div class="node-sub">Sales · Purchase · Stock</div>
+              <div class="chip">Sales Invoice SINV-0412</div>
+              <div class="chip">Payment Entry PE-0187</div>
+            </div>
+            <div class="arrows">
+              <span>⇄</span>
+              <small>bridge</small>
+            </div>
+            <div class="node">
+              <div class="node-title">Tally</div>
+              <div class="node-sub">Books · GST · Audit</div>
+              <div class="chip ok">Sales voucher ✓</div>
+              <div class="chip ok">Receipt voucher ✓</div>
+            </div>
+          </div>
+          <div class="recon">
+            <div class="recon-head">Reconciliation · Sep 2026 <span class="pill">illustrative</span></div>
+            <div class="recon-row"><span>Sales (taxable)</span><span class="ok">Matched</span></div>
+            <div class="recon-row"><span>Output GST</span><span class="ok">Matched</span></div>
+            <div class="recon-row"><span>Debtors: 2 vouchers</span><span class="warn">Review</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAIN -->
+    <section class="section alt" id="pain">
+      <div class="wrap">
+        <h2>Sound familiar?</h2>
+        <div class="grid3">
+          <article class="card">
+            <h3>Double entry, every week</h3>
+            <p>Your team raises invoices in ERPNext, then someone types the same entries into Tally for the CA. That's hours of re-keying, plus typos.</p>
+          </article>
+          <article class="card">
+            <h3>Mismatches at GST time</h3>
+            <p>When GSTR-1 or GSTR-3B is due, sales, tax and party balances don't match between the two systems, and the hunt for the difference begins.</p>
+          </article>
+          <article class="card">
+            <h3>“Our CA won't move from Tally”</h3>
+            <p>Your accountant knows Tally inside out. A full migration is risky and slow. You just want both systems to agree.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW -->
+    <section class="section" id="how">
+      <div class="wrap">
+        <h2>How it works</h2>
+        <p class="sub">Two small pieces. Your data moves directly between your own systems.</p>
+        <ol class="steps">
+          <li>
+            <span class="num">1</span>
+            <div>
+              <h3>Install the ERPNext app</h3>
+              <p>It adds mapping screens (ledgers ↔ accounts, parties, items, GST tax templates, cost centres), a sync queue and a sync log with retry for failed entries.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <div>
+              <h3>Run the small Windows bridge next to Tally</h3>
+              <p>Tally only listens on the PC where it runs, so a lightweight tray app on that machine talks to Tally locally and to your ERPNext site over HTTPS. There's nothing to expose to the internet.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <div>
+              <h3>Vouchers and ledgers sync</h3>
+              <p>Sales/purchase invoices, payments and journals go to Tally as vouchers with the right GST ledgers. Ledgers and parties are kept in step on both sides.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">4</span>
+            <div>
+              <h3>Reconcile before you file</h3>
+              <p>A period-wise report compares trial balance, GST and party balances in ERPNext vs Tally and lists exactly which vouchers differ.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="note">Planned first release: ERPNext → Tally vouchers, two-way ledger/party sync, and the reconciliation report. Tally → ERPNext migration comes later. Tell us what you need most in the form below.</p>
+      </div>
+    </section>
+
+    <!-- WHO -->
+    <section class="section alt" id="who">
+      <div class="wrap">
+        <h2>Who it's for</h2>
+        <div class="grid3">
+          <article class="card">
+            <h3>Businesses on ERPNext</h3>
+            <p>Manufacturers, traders and distributors who run operations in ERPNext but file through a CA who uses Tally.</p>
+          </article>
+          <article class="card">
+            <h3>Chartered accountants</h3>
+            <p>Get clean, complete vouchers in Tally from clients on ERPNext, with no spreadsheets to re-key and a reconciliation report to review.</p>
+          </article>
+          <article class="card">
+            <h3>ERPNext implementation partners</h3>
+            <p>Stop losing deals when the client's CA refuses to drop Tally. Offer co-existence from day one.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section" id="pricing">
+      <div class="wrap narrow">
+        <h2>Early-bird pricing</h2>
+        <div class="price-card">
+          <div class="price-tag"><span class="price">₹499 – ₹999</span><span class="per">per company / month</span></div>
+          <ul class="ticks">
+            <li>Founding-member discount for early waitlist signups</li>
+            <li>Free trial before you pay</li>
+            <li>Special plans for CAs and implementation partners managing many companies</li>
+          </ul>
+          <p class="disclaimer"><strong>Indicative only.</strong> Final pricing will be shared with the waitlist before launch. Joining the waitlist is free and doesn't commit you to anything.</p>
+          <a class="btn" href="#signup">Reserve founding-member pricing</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGNUP -->
+    <section class="section alt" id="signup">
+      <div class="wrap narrow">
+        <h2>Get early access</h2>
+        <p class="sub">Takes under a minute. We'll only build this if enough people need it, so your answers really shape it.</p>
+
+        <form id="waitlist-form" name="waitlist" class="form" method="POST" data-netlify="true" netlify-honeypot="company_website" novalidate>
+          <input type="hidden" name="form-name" value="waitlist">
+          <div class="row2">
+            <label>Name<span class="req">*</span>
+              <input type="text" name="name" autocomplete="name" required maxlength="100">
+            </label>
+            <label>Email<span class="req">*</span>
+              <input type="email" name="email" autocomplete="email" required maxlength="150">
+            </label>
+          </div>
+          <div class="row2">
+            <label>Phone / WhatsApp <span class="opt">(optional)</span>
+              <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+91" maxlength="20">
+            </label>
+            <label>Your role<span class="req">*</span>
+              <select name="role" required>
+                <option value="">Select…</option>
+                <option>Business (owner / finance / ops)</option>
+                <option>Chartered accountant / tax professional</option>
+                <option>ERPNext implementation partner</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
+          <div class="row2">
+            <label>Company size / number of companies<span class="req">*</span>
+              <select name="size" required>
+                <option value="">Select…</option>
+                <option>1 company, under 20 people</option>
+                <option>1 company, 20–100 people</option>
+                <option>1 company, 100+ people</option>
+                <option>2–5 companies / clients</option>
+                <option>6–20 companies / clients</option>
+                <option>21+ companies / clients</option>
+              </select>
+            </label>
+            <label>Current setup<span class="req">*</span>
+              <select name="setup" required>
+                <option value="">Select…</option>
+                <option>Tally only</option>
+                <option>ERPNext only</option>
+                <option>Both Tally and ERPNext</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
+          <label>Your biggest pain with books / GST today <span class="opt">(optional)</span>
+            <textarea name="pain" rows="4" maxlength="2000" placeholder="e.g. We re-enter ~300 invoices a month into Tally and still find GST differences at filing."></textarea>
+          </label>
+
+          <!-- Honeypot: humans never see or fill this -->
+          <div class="hp" aria-hidden="true">
+            <label>Leave this empty <input type="text" name="company_website" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="consent" required>
+            <span>I agree to be contacted about early access. See the <a href="#privacy">privacy note</a>.</span>
+          </label>
+
+          <button class="btn btn-block" type="submit" id="submit-btn">Join the waitlist</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="thanks" id="thanks" hidden tabindex="-1">
+          <div class="thanks-icon" aria-hidden="true">✓</div>
+          <h3>You're on the list. Thank you!</h3>
+          <p>We'll email you before the beta opens, and may reach out for a short 15-minute call about your setup. Know a CA or business with the same problem?</p>
+          <a class="btn btn-ghost" id="share-wa" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="wrap narrow">
+        <h2>FAQ</h2>
+        <details>
+          <summary>Is this a migration tool?</summary>
+          <p>No. The first goal is <em>co-existence</em>: keep ERPNext for operations and Tally for books, in sync. A guided Tally → ERPNext migration may follow for those who want to move fully.</p>
+        </details>
+        <details>
+          <summary>Which versions will be supported?</summary>
+          <p>The plan is TallyPrime on Windows and current ERPNext versions (v15 and v16), both self-hosted and cloud-hosted sites. Tell us your versions in the form and we'll confirm before beta.</p>
+        </details>
+        <details>
+          <summary>Why does it need a Windows app?</summary>
+          <p>Tally's integration interface runs on the computer where Tally is installed, so a cloud server can't reach it directly. The small bridge app runs there, connects to Tally locally, and talks to ERPNext over HTTPS.</p>
+        </details>
+        <details>
+          <summary>Where does my accounting data go?</summary>
+          <p>Directly between your Tally PC and your ERPNext site. It is designed so your books are not stored on our servers. Only minimal licence and health information would be sent, and we will document this fully before launch.</p>
+        </details>
+        <details>
+          <summary>Will my CA have to change anything?</summary>
+          <p>No. Your CA keeps working in Tally as usual. Vouchers simply arrive already entered, with the GST ledgers you choose in the mapping.</p>
+        </details>
+        <details>
+          <summary>What if an entry fails to sync?</summary>
+          <p>It stays in the sync queue with a clear error (for example a missing ledger mapping). Fix the mapping and retry, so nothing is silently dropped.</p>
+        </details>
+        <details>
+          <summary>When will it be available, and what does joining cost?</summary>
+          <p>Joining is free. We're validating demand first: if enough businesses and CAs sign up, waitlist members get beta access first, with founding-member pricing.</p>
+        </details>
+        <details>
+          <summary>Are you affiliated with Tally Solutions or Frappe?</summary>
+          <p>No. <span class="brand">SetuBooks</span> is an independent product. Tally and TallyPrime are trademarks of Tally Solutions Pvt. Ltd.; ERPNext and Frappe are trademarks of Frappe Technologies Pvt. Ltd. Their names are used only to describe compatibility.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- PRIVACY -->
+    <section class="section alt" id="privacy">
+      <div class="wrap narrow">
+        <h2>Privacy note</h2>
+        <p>We collect only what you type into the form (name, email, optional phone, role, size, setup, your note, plus which link brought you here), and only to contact you about early access and to understand demand. We don't sell or share it, except with the form-delivery service that forwards it to our inbox. Ask us any time to see or delete your data at <a href="mailto:rasoolattar.tech@gmail.com">rasoolattar.tech@gmail.com</a>.</p>
+        <p class="muted" id="analytics-note">This site does not use cookies or advertising trackers.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <strong class="brand">SetuBooks</strong> · early access<br>
+        <span class="muted">Independent product. Not affiliated with Tally Solutions or Frappe Technologies.</span>
+      </div>
+      <div>
+        Contact: <a href="mailto:rasoolattar.tech@gmail.com">rasoolattar.tech@gmail.com</a><br>
+        <span class="muted">© <span id="year">2026</span> Rasool Attar · Bengaluru, India</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
